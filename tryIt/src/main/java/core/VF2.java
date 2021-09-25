@@ -31,17 +31,17 @@ public class VF2 {
 	 */
 	private void matchRecursive(State state, ArrayList<int[]> stateSet, Graph targetGraph, Graph queryGraph) {
 
-		if (state.depth == queryGraph.nodes.size()) { 
+		if (state.depth == queryGraph.nodes.size()) {    // 找到一个匹配子图
 			state.matched = true;
 			int[] arr = Arrays.copyOf(state.core_2,state.core_2.length);
 			stateSet.add(arr);
-		} else {   
+		} else {    // 继续寻找子图
 			ArrayList<Pair<Integer, Integer>> candidatePairs = genCandidatePairs(state, targetGraph, queryGraph);
 			for (Pair<Integer, Integer> entry : candidatePairs) {
 				if (checkFeasibility(state, entry.getKey(), entry.getValue())) {
-					state.extendMatch(entry.getKey(), entry.getValue());
+					state.extendMatch(entry.getKey(), entry.getValue()); // 深入下一个可能节点
 					matchRecursive(state, stateSet, targetGraph, queryGraph);
-					state.backtrack(entry.getKey(), entry.getValue());
+					state.backtrack(entry.getKey(), entry.getValue()); // 返回前一个状态
 				}
 			}
 		}
